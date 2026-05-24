@@ -1,0 +1,92 @@
+<!-- src/app/modules/auth/components/login.component.html -->
+<div class="login-shell">
+  <!-- Premium Seamless Video Background -->
+  <video #bgVideo class="video-bg" autoplay loop muted playsinline>
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260518_003132_8b7edcb6-c64d-4a52-a9ca-879942e122ad.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
+
+  <div class="hero-layout">
+    <!-- Left Copy Section -->
+    <div class="hero-text-content">
+      <div class="hero-badge">✧ Valence Intelligence</div>
+      <h1 class="hero-heading">Elevate Your Data<br>with <span>Cinematic Precision</span></h1>
+      <p class="hero-subtext">Zero friction, total control. Valence keeps you covered with seamless integration, real-time analytics, and premium tools for your enterprise ecosystem.</p>
+      
+      <button class="btn-secondary">Explore Platform <span class="arrow">→</span></button>
+    </div>
+
+    <!-- Right Login Form -->
+    <div class="login-container">
+    <div class="login-card glass-panel" [@slideUp]>
+      
+      <div class="card-header">
+        <div class="hero-logo-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 256 256">
+            <path d="M 64 128 L 64.5 128 L 32 95 L 0 64 L 0 0 L 64 0 L 128 64 L 128 64.5 L 161 32 L 192 0 L 256 0 L 256 64 L 192 128 L 128 128 L 128 192 L 96 223 L 63.5 256 L 0 256 L 0 192 Z M 256 192 L 224 223 L 191.5 256 L 128 256 L 128 192 L 192 128 L 256 128 Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <h2 class="login-card-title">VaultShield</h2>
+        <p class="login-card-sub">Enterprise-grade secure workspace</p>
+      </div>
+
+      <!-- Demo quick-fill -->
+      <div class="demo-badges">
+        <button class="demo-badge admin" type="button" (click)="fillDemo('Admin')">
+          <span class="badge-label">Quick Fill</span>
+          <span class="badge-role">Admin</span>
+        </button>
+        <button class="demo-badge user" type="button" (click)="fillDemo('General User')">
+          <span class="badge-label">Quick Fill</span>
+          <span class="badge-role">General User</span>
+        </button>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="form-group">
+          <label for="userId">USER ID</label>
+          <input id="userId" type="text" formControlName="userId"
+                 placeholder="e.g. admin01" autocomplete="username"
+                 [class.invalid]="f['userId'].invalid && f['userId'].touched">
+          <span class="field-err" *ngIf="f['userId'].errors?.['required'] && f['userId'].touched">
+            User ID is required.
+          </span>
+        </div>
+
+        <div class="form-group">
+          <label for="password">PASSWORD</label>
+          <div class="pw-wrap">
+            <input id="password" [type]="showPassword ? 'text' : 'password'"
+                   formControlName="password" placeholder="••••••••"
+                   [class.invalid]="f['password'].invalid && f['password'].touched">
+            <button type="button" class="pw-toggle" (click)="showPassword = !showPassword">
+              {{ showPassword ? 'Hide' : 'Show' }}
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group row-group">
+          <div class="form-half">
+            <label for="role">ROLE</label>
+            <select id="role" formControlName="role" class="glass-input">
+              <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+            </select>
+          </div>
+          <div class="form-half">
+            <label for="delay">API DELAY (ms)</label>
+            <input id="delay" type="number" formControlName="delay" min="0" max="10000" class="glass-input">
+          </div>
+        </div>
+
+        <div class="alert alert-error" *ngIf="error">{{ error }}</div>
+
+        <button type="submit" class="btn-primary" [disabled]="loading || loginForm.invalid">
+          <span class="spinner" *ngIf="loading"></span>
+          <span>{{ loading ? 'Authenticating…' : 'Secure Login' }}</span>
+          <svg *ngIf="!loading" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+  </div>
+</div>

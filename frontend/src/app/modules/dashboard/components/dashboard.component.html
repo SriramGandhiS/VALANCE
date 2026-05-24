@@ -1,0 +1,200 @@
+<div class="neuralyn-theme">
+  <!-- Navbar -->
+  <nav class="n-navbar">
+    <div class="n-nav-left">
+      <div class="n-logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="n-logo-icon"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        <span class="n-logo-text">Valence</span>
+      </div>
+      <div class="n-nav-links">
+        <a href="#">Home</a>
+        <a href="#">Services <svg class="n-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
+        <a href="#">Reviews</a>
+        <a href="#">Contact us</a>
+      </div>
+    </div>
+    <div class="n-nav-right">
+      <div class="n-user-info" *ngIf="currentUser">
+        <div class="n-avatar">{{ currentUser.name | slice:0:1 }}{{ currentUser.name.split(' ')[1] | slice:0:1 }}</div>
+      </div>
+      <button class="n-btn-secondary" (click)="logout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="n-hero-section">
+    <div class="n-hero-content">
+      <div class="liquid-glass n-tag-pill fade-up-1">
+        <span class="n-badge-new">New</span>
+        <span class="n-tag-text">Say Hello to Valence v3.2</span>
+      </div>
+      
+      <h1 class="n-hero-title fade-up-2">
+        Valence Digital.<br>
+        One Clear <span class="n-accent-serif">Overview.</span>
+      </h1>
+      
+      <p class="n-hero-subtitle fade-up-3">
+        Valence helps teams track metrics, goals,<br>and progress with precision.
+      </p>
+      
+      <button class="n-cta-button fade-up-4">Get Started for Free</button>
+    </div>
+  </section>
+
+  <!-- Dashboard + Video Area -->
+  <section class="n-dashboard-video-area fade-up-5">
+    <video autoplay loop muted playsinline [muted]="true" class="n-bg-video">
+      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4" type="video/mp4">
+    </video>
+    
+    <div class="n-bottom-fade"></div>
+
+    <div class="n-dashboard-mock parallax-scroll">
+      <!-- ACTUAL DASHBOARD WIDGETS -->
+      <div class="dashboard-widgets-container">
+        
+        <div class="page-header glass-panel">
+          <div>
+            <h1 class="page-title">Dashboard Overview</h1>
+            <p class="page-sub">{{ currentUser?.role }} · {{ currentUser?.userId }}</p>
+          </div>
+        </div>
+
+        <!-- Profile card -->
+        <div class="profile-card glass-panel">
+          <div class="profile-avatar">
+            <span *ngIf="profileState !== 'loading'">
+              {{ currentUser?.name | slice:0:1 }}{{ currentUser?.name?.split(' ')?.[1] | slice:0:1 }}
+            </span>
+          </div>
+          <div class="profile-info">
+            <div *ngIf="profileState === 'loading'" class="skeleton-text"></div>
+            <div *ngIf="profileState === 'loaded'" class="profile-loaded">
+              <div class="profile-name-row">
+                <span class="profile-name">{{ currentUser?.name }}</span>
+                <span class="role-badge" [class.admin]="isAdmin" [class.user]="!isAdmin">
+                  {{ currentUser?.role }}
+                </span>
+              </div>
+              <div class="profile-meta">
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 6px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> {{ currentUser?.email }}</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 6px;"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="9" y1="22" x2="9" y2="16"></line><line x1="15" y1="22" x2="15" y2="16"></line><line x1="9" y1="16" x2="15" y2="16"></line><path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01"></path></svg> {{ currentUser?.department }}</span>
+                <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 6px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> Joined {{ currentUser?.createdAt | date:'mediumDate' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin summary stats -->
+        <div class="stats-row" *ngIf="isAdmin && adminSummary">
+          <div class="stat-card glass-panel">
+            <div class="stat-label">Total Records</div>
+            <div class="stat-value blue">{{ adminSummary.total }}</div>
+          </div>
+          <div class="stat-card glass-panel">
+            <div class="stat-label">Active</div>
+            <div class="stat-value green">{{ adminSummary.byStatus.Active }}</div>
+          </div>
+          <div class="stat-card glass-panel">
+            <div class="stat-label">Pending</div>
+            <div class="stat-value amber">{{ adminSummary.byStatus.Pending }}</div>
+          </div>
+          <div class="stat-card glass-panel">
+            <div class="stat-label">Closed</div>
+            <div class="stat-value">{{ adminSummary.byStatus.Closed }}</div>
+          </div>
+          <div class="stat-card glass-panel">
+            <div class="stat-label">Admin-Only Records</div>
+            <div class="stat-value red">{{ adminSummary.adminOnly }}</div>
+          </div>
+        </div>
+
+        <!-- Async delay panel -->
+        <div class="async-panel glass-panel">
+          <span class="async-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 6px; color: var(--accent2);"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline></svg>
+            Async API Delay
+          </span>
+          <input type="range" min="0" max="5000" step="250" [(ngModel)]="apiDelay">
+          <span class="delay-val">{{ apiDelay }}ms</span>
+          <button class="btn btn-ghost btn-sm" (click)="reloadWithDelay()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 12px; height: 12px; margin-right: 4px; display: inline-block; vertical-align: middle;"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+            Reload
+          </button>
+          <span class="load-tag" *ngIf="loadDuration">Loaded in {{ loadDuration }}ms</span>
+        </div>
+
+        <!-- Records table -->
+        <div class="table-panel glass-panel">
+          <div class="table-toolbar">
+            <input type="text" [(ngModel)]="searchTerm"
+                   placeholder="Search records…">
+            <div class="filter-tabs">
+              <button *ngFor="let s of statuses" class="filter-tab"
+                      [class.active]="statusFilter === s"
+                      (click)="statusFilter = s">
+                {{ s }}
+              </button>
+            </div>
+            <span class="table-count">{{ filteredRecords.length }} records</span>
+          </div>
+
+          <!-- Loading state -->
+          <div class="page-loading" *ngIf="recordsState === 'loading'">
+            <div class="pulse-ring"></div> Loading records…
+          </div>
+
+          <!-- Error state -->
+          <div class="alert alert-error" *ngIf="recordsState === 'error'">
+            ⚠ {{ recordsError }}
+          </div>
+
+          <!-- Table -->
+          <div class="table-scroll" *ngIf="recordsState === 'loaded'">
+            <table *ngIf="filteredRecords.length; else emptyTpl">
+              <thead>
+                <tr>
+                  <th (click)="sortBy('title')" [class.sorted]="sortColumn === 'title'">
+                    RECORD <span>{{ sortColumn === 'title' ? (sortDirection === 'asc' ? '↑' : '↓') : '' }}</span>
+                  </th>
+                  <th (click)="sortBy('status')" [class.sorted]="sortColumn === 'status'">STATUS</th>
+                  <th (click)="sortBy('priority')" [class.sorted]="sortColumn === 'priority'">PRIORITY</th>
+                  <th (click)="sortBy('assignedTo')" [class.sorted]="sortColumn === 'assignedTo'">ASSIGNED TO</th>
+                  <th (click)="sortBy('createdAt')" [class.sorted]="sortColumn === 'createdAt'">DATE</th>
+                  <th>ACCESS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rec of filteredRecords">
+                  <td>
+                    <div class="td-title">{{ rec.title }}</div>
+                    <div class="td-desc">{{ rec.description }}</div>
+                  </td>
+                  <td>
+                    <span class="badge" [ngClass]="'badge-' + rec.status.toLowerCase()">{{ rec.status }}</span>
+                  </td>
+                  <td>
+                    <span class="badge" [ngClass]="'badge-' + rec.priority.toLowerCase()">{{ rec.priority }}</span>
+                  </td>
+                  <td>{{ rec.assignedTo }}</td>
+                  <td>{{ rec.createdAt | date:'dd MMM yyyy' }}</td>
+                  <td>
+                    <span *ngIf="rec.accessLevel === 'admin-only'" class="badge badge-admin-only">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 12px; height: 12px; margin-right: 4px; display: inline-block; vertical-align: middle;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                      Admin Only
+                    </span>
+                    <span *ngIf="rec.accessLevel !== 'admin-only'" class="access-public">Public</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <ng-template #emptyTpl>
+              <div class="empty-state">No records match your filter.</div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
