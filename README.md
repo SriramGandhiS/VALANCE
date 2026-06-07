@@ -14,7 +14,7 @@ Welcome to the Valence Dashboard SPA. This application has been custom-built to 
 | **Async API Delay Mechanism** | Built an interactive "Async Delay" slider directly into the dashboard. You can manually adjust the API response time to observe our elegant, asynchronous skeleton loaders in action. |
 | **Modular Code with Services** | Codebase strictly uses Lazy Loading for modules (Auth, Dashboard, Admin) and separates concerns into `AuthService`, `UserService`, and `RecordsService`. |
 
-### 🚀 Bonus: Premium Cinematic UI
+### Bonus: Premium Cinematic UI
 Beyond the core requirements, we overhauled the user interface. We utilized a **Motion Sites-inspired Dark Glassmorphism** aesthetic. Instead of a generic white-box table, your dashboard features premium dark glass overlays, high-contrast typography, and a cinematic background video, giving it the feel of a top-tier SaaS product.
 
 ---
